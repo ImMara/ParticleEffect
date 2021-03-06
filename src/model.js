@@ -19,6 +19,8 @@ class Model {
 
         this.color1 = obj.color1
         this.color2 = obj.color2
+        this.background = obj.background
+
 
         this.loader = new GLTFLoader();
         this.dracoLoader = new DRACOLoader();
@@ -125,7 +127,6 @@ class Model {
     }
     add(){
         this.scene.add(this.particles)
-        this.isActive = true
 
         gsap.to(this.particlesMaterial.uniforms.uScale,{
             value:1,
@@ -133,6 +134,20 @@ class Model {
             delay:.3,
             ease:"power3.out"
         })
+        if(!this.isActive){
+            gsap.fromTo(this.particles.rotation,{
+               y : Math.PI
+            },{
+                y: 0,
+                duration: .8,
+                ease:'power3.out',
+            })
+        }
+        gsap.to('body',{
+            background:this.background,
+            duration:.8
+        })
+        this.isActive = true
     }
     remove(){
         gsap.to(this.particlesMaterial.uniforms.uScale,{
@@ -143,6 +158,12 @@ class Model {
                 this.scene.remove(this.particles)
                 this.isActive = false
             }
+        })
+
+        gsap.to(this.particles.rotation,{
+            y:Math.PI,
+            duration:.8,
+            ease:'power3.out'
         })
     }
 }

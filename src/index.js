@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import gsap from 'gsap'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Model from './model'
 
@@ -42,6 +43,7 @@ const cube = new THREE.Mesh( geometry, material );
 OrbitControls
 ------------------------------*/
 const controls = new OrbitControls( camera, renderer.domElement );
+controls.enabled = false;
 
 
 /*------------------------------
@@ -62,7 +64,8 @@ const Skull = new Model({
   scene: scene,
   color1:'red',
   color2:'yellow',
-  placeOnLoad: true
+  background:'#47001b',
+  placeOnLoad: true,
 })
 
 const Horse = new Model({
@@ -71,6 +74,7 @@ const Horse = new Model({
   scene: scene,
   color1:'blue',
   color2:'pink',
+  background:'#110047',
   placeOnLoad: false
 })
 /*------------------------------
@@ -120,3 +124,18 @@ function onWindowResize() {
   renderer.setSize( window.innerWidth, window.innerHeight );
 }
 window.addEventListener( 'resize', onWindowResize, false );
+
+/*------------------------------
+MouseMove
+------------------------------*/
+function onMouseMove(e){
+    const x = e.clientX
+    const y = e.clientY
+
+    gsap.to(scene.rotation,{
+      y:gsap.utils.mapRange(0,window.innerWidth,.2,-.2, x),
+      x:gsap.utils.mapRange(0,window.innerHeight,.2,-.2, y)
+    })
+}
+
+window.addEventListener('mousemove',onMouseMove)
