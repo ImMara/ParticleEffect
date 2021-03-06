@@ -13,6 +13,8 @@ class Model {
         this.scene = obj.scene
         this.placeOnLoad = obj.placeOnLoad
 
+        this.isActive = false
+
         this.color1 = obj.color1
         this.color2 = obj.color2
 
@@ -59,7 +61,8 @@ class Model {
             this.particlesMaterial = new THREE.ShaderMaterial({
                 uniforms:{
                     uColor1:{value : new THREE.Color(this.color1)},
-                    uColor2:{value: new THREE.Color(this.color2)}
+                    uColor2:{value: new THREE.Color(this.color2)},
+                    uTime:{ value:0 }
                 },
                 vertexShader:vertex,
                 fragmentShader:fragment,
@@ -77,6 +80,7 @@ class Model {
             const numParticles = 20000
             this.particlesGeometry = new THREE.BufferGeometry()
             const particlesPosition = new Float32Array(numParticles *3)
+            const particlesRandomness = new Float32Array(numParticles*3)
 
             for (let i = 0; i< numParticles;i++){
                 const newPosition = new THREE.Vector3();
@@ -86,10 +90,18 @@ class Model {
                     newPosition.y, // 1
                     newPosition.z // 2
                 ], i*3 )
+
+                particlesRandomness.set([
+                    Math.random() * 2 - 1, // -1 <> 1
+                    Math.random() * 2 - 1,
+                    Math.random() * 2 - 1
+                ],i*3)
             }
 
             this.particlesGeometry.setAttribute('position', new
             THREE.BufferAttribute(particlesPosition,3))
+            this.particlesGeometry.setAttribute('aRandom',new
+            THREE.BufferAttribute(particlesRandomness,3))
 
             console.log(this.particlesGeometry)
 
@@ -110,9 +122,11 @@ class Model {
     }
     add(){
         this.scene.add(this.particles)
+        this.isActive = true
     }
     remove(){
         this.scene.remove(this.particles)
+        this.isActive = false
     }
 }
 export default Model;

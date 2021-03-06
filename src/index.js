@@ -87,6 +87,11 @@ buttons[1].addEventListener('click',()=>{
   Horse.add()
 })
 
+/*------------------------------
+Clock
+------------------------------*/
+
+const clock = new THREE.Clock()
 
 /*------------------------------
 Loop
@@ -94,6 +99,14 @@ Loop
 const animate = function () {
   requestAnimationFrame( animate );
   renderer.render( scene, camera );
+
+  if(Skull.isActive){
+    Skull.particlesMaterial.uniforms.uTime.value = clock.getElapsedTime()
+  }
+  if(Horse.isActive){
+    Horse.particlesMaterial.uniforms.uTime.value = clock.getElapsedTime()
+  }
+
 };
 animate();
 
