@@ -1,9 +1,11 @@
 import * as THREE from 'three';
+import gsap from 'gsap';
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
 import {DRACOLoader} from "three/examples/jsm/loaders/DRACOLoader";
 import {MeshSurfaceSampler} from "three/examples/jsm/math/MeshSurfaceSampler";
 import vertex from './shader/vertexShader.glsl';
 import fragment from './shader/fragmentShader.glsl';
+
 
 class Model {
     constructor(obj){
@@ -62,7 +64,8 @@ class Model {
                 uniforms:{
                     uColor1:{value : new THREE.Color(this.color1)},
                     uColor2:{value: new THREE.Color(this.color2)},
-                    uTime:{ value:0 }
+                    uTime:{ value:0 },
+                    uScale:{value : 0}
                 },
                 vertexShader:vertex,
                 fragmentShader:fragment,
@@ -123,10 +126,24 @@ class Model {
     add(){
         this.scene.add(this.particles)
         this.isActive = true
+
+        gsap.to(this.particlesMaterial.uniforms.uScale,{
+            value:1,
+            duration:.8,
+            delay:.3,
+            ease:"power3.out"
+        })
     }
     remove(){
-        this.scene.remove(this.particles)
-        this.isActive = false
+        gsap.to(this.particlesMaterial.uniforms.uScale,{
+            value:0,
+            duration:.8,
+            ease:"power3.out",
+            onComplete:()=>{
+                this.scene.remove(this.particles)
+                this.isActive = false
+            }
+        })
     }
 }
 export default Model;
