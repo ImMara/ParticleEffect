@@ -60,6 +60,8 @@ const Skull = new Model({
   name:'skull',
   file:'./models/skull.glb',
   scene: scene,
+  color1:'red',
+  color2:'yellow',
   placeOnLoad: true
 })
 
@@ -67,6 +69,8 @@ const Horse = new Model({
   name:'horse',
   file:'./models/Horse.glb',
   scene: scene,
+  color1:'blue',
+  color2:'pink',
   placeOnLoad: false
 })
 /*------------------------------
