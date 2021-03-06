@@ -31,11 +31,11 @@ camera.position.y = 1;
 /*------------------------------
 Mesh
 ------------------------------*/
-const geometry = new THREE.BoxGeometry(2, 2, 2);
-const material = new THREE.MeshBasicMaterial( { 
-  color: 0x00ff00,
-} );
-const cube = new THREE.Mesh( geometry, material );
+//const geometry = new THREE.BoxGeometry(2, 2, 2);
+//const material = new THREE.MeshBasicMaterial( {
+ // color: 0x00ff00,
+//} );
+//const cube = new THREE.Mesh( geometry, material );
 // scene.add( cube );
 
 
@@ -70,7 +70,7 @@ const Skull = new Model({
 
 const Horse = new Model({
   name:'horse',
-  file:'./models/Horse.glb',
+  file:'./models/horse.glb',
   scene: scene,
   color1:'blue',
   color2:'pink',
